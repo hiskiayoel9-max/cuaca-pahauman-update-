@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pahauman Monitor</title>
+    <style>
+        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; }
+        .header { background: #1a73e8; color: white; padding: 12px; text-align: center; font-weight: bold; }
+        .widget-card { background: white; margin: 10px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .label { padding: 8px 12px; font-size: 12px; color: #666; font-weight: bold; background: #fafafa; border-bottom: 1px solid #eee; }
+        iframe { width: 100%; border: none; display: block; }
+    </style>
+</head>
+<body>
 
+    <div class="header">MONITOR PAHAUMAN</div>
+
+    <!-- WIDGET 1: SAHAM INDONESIA (Ticker Tape) -->
+    <div class="widget-card">
+        <div class="label">📈 BURSA EFEK INDONESIA</div>
+        <div style="height: 46px;">
+            <iframe src="https://s3.tradingview.com" style="height: 46px; width: 100%;"></iframe>
+        </div>
+    </div>
+
+    <!-- WIDGET 2: RADAR CUACA PAHAUMAN (Windy) -->
+    <div class="widget-card">
+        <div class="label">☁️ RADAR HUJAN PAHAUMAN (LIVE)</div>
+        <iframe src="https://embed.windy.com" style="height: 400px;"></iframe>
+    </div>
+
+    <p style="text-align:center; font-size:10px; color:#999; padding: 10px;">Data: [TradingView](https://id.tradingview.com/widget/) & [Windy](https://www.windy.com/)</p>
+
+</body>
+</html>
