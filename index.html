@@ -3,34 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pahauman Monitor</title>
+    <title>Lacak Paket - Kurir Express System</title>
     <style>
-        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #f0f2f5; }
-        .header { background: #1a73e8; color: white; padding: 12px; text-align: center; font-weight: bold; }
-        .widget-card { background: white; margin: 10px; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .label { padding: 8px 12px; font-size: 12px; color: #666; font-weight: bold; background: #fafafa; border-bottom: 1px solid #eee; }
-        iframe { width: 100%; border: none; display: block; }
+        body { font-family: Arial, sans-serif; margin: 0; background: #f4f4f4; color: #333; }
+        .header { background: #e62129; color: white; padding: 15px; text-align: center; font-weight: bold; font-size: 18px; }
+        .container { padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .card { background: white; width: 90%; max-width: 400px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .resi-box { background: #fff3f3; border: 1px dashed #e62129; padding: 10px; margin-bottom: 20px; border-radius: 5px; }
+        .btn-lacak { width: 100%; padding: 15px; background: #e62129; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 15px; }
+        
+        #map-section { width: 100%; height: 400px; margin-top: 20px; display: none; border-top: 4px solid #e62129; }
+        iframe { width: 100%; height: 100%; border: none; }
+        
+        .loading-text { display: none; font-size: 13px; color: #666; margin-top: 10px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div class="header">MONITOR PAHAUMAN</div>
+<div class="header">KURIR EXPRESS INDONESIA</div>
 
-    <!-- WIDGET 1: SAHAM INDONESIA (Ticker Tape) -->
-    <div class="widget-card">
-        <div class="label">📈 BURSA EFEK INDONESIA</div>
-        <div style="height: 46px;">
-            <iframe src="https://s3.tradingview.com" style="height: 46px; width: 100%;"></iframe>
+<div class="container">
+    <div class="card">
+        <div class="resi-box">
+            <strong>Nomor Resi:</strong><br>
+            <span style="color:#e62129; font-size: 18px;">EXP-992811029384</span>
         </div>
+        <p style="font-size: 13px; color: #555;">Paket Anda sedang dibawa oleh kurir. Klik tombol di bawah untuk <strong>sinkronisasi GPS</strong> dan melihat posisi kurir di peta.</p>
+        
+        <button class="btn-lacak" onclick="aktifkanGPS()">LIHAT POSISI KURIR (LIVE)</button>
+        <div id="loader" class="loading-text">Menghubungkan ke satelit kurir...</div>
     </div>
+</div>
 
-    <!-- WIDGET 2: RADAR CUACA PAHAUMAN (Windy) -->
-    <div class="widget-card">
-        <div class="label">☁️ RADAR HUJAN PAHAUMAN (LIVE)</div>
-        <iframe src="https://embed.windy.com" style="height: 400px;"></iframe>
-    </div>
+<div id="map-section">
+    <iframe id="google-maps"></iframe>
+</div>
 
-    <p style="text-align:center; font-size:10px; color:#999; padding: 10px;">Data: [TradingView](https://id.tradingview.com/widget/) & [Windy](https://www.windy.com/)</p>
+<script>
+    function aktifkanGPS() {
+        const loader = document.getElementById('loader');
+        loader.style.display = "block";
+
+        // Meminta Izin Lokasi (Target akan melihat konfirmasi browser)
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+                
+                // Menampilkan Google Maps Asli di koordinat Target
+                const mapUrl = `https://maps.google.com{lat},${lon}&z=16&output=embed`;
+                
+                document.getElementById('map-section').style.display = "block";
+                document.getElementById('google-maps').src = mapUrl;
+                
+                loader.innerText = "Lokasi Kurir Terhubung!";
+                loader.style.color = "green";
+
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+            }, function(error) {
+                alert("Gagal sinkronisasi. Harap klik 'IZINKAN' (Allow) pada browser untuk melihat posisi kurir.");
+                loader.style.display = "none";
+            });
+        } else {
+            alert("Browser tidak mendukung sistem GPS.");
+        }
+    }
+</script>
 
 </body>
 </html>
